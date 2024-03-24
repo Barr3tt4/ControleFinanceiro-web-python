@@ -8,7 +8,7 @@ PASSWORD = os.getenv('PASSWORD')
 USER = os.getenv('USER')
 HOST = os.getenv('HOST')
 
-def grava_dados_postgres(data):
+def grava_dados_postgres(moradia, sg_moradia):
 
     try:
         # Connect to an existing database
@@ -18,8 +18,8 @@ def grava_dados_postgres(data):
                                       port="5432",
                                       database="postgres")
         cursor = connection.cursor()
-        postgreSQL_select_Query = "INSERT INTO teste (date, var1, var2, var3, var4) VALUES (now(), %s, random()*10, random()*10, random()*10);"
-        cursor.execute(postgreSQL_select_Query, [data])
+        postgreSQL_select_Query = "INSERT INTO despesas (date_time, date, moradia, sg_moradia) VALUES (now(), now(), %s, %s);"
+        cursor.execute(postgreSQL_select_Query, [moradia, sg_moradia])
         connection.commit()
         count = cursor.rowcount
         print(count, "Record inserted successfully into table")
