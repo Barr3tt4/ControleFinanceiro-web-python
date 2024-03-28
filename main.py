@@ -18,25 +18,22 @@ st.set_page_config(page_title="Despesas Pessoais")
 with st.container():
     st.title("Despesas Pessoais")
 
-with st.container():
+with st.container(): #Moradia
     st.write("---")
     st.subheader("Moradia")
     st.write(" ")
     dados_moradia= pd.read_sql_table('despesas', con=engine, columns=['date_time', 'moradia'])
     dados_moradia= dados_moradia.groupby(dados_moradia.date_time.dt.date)[['moradia']].sum().reset_index()
-    dados_moradia= dados_moradia.groupby(dados_moradia.date_time.dt.date).apply(lambda x: x.astype(float).sum())
     print(dados_moradia)
     st.line_chart(dados_moradia, x='date_time', y="moradia")
 
 with st.container():
     st.write("---")
     st.subheader("Gastos totais do mês")
-    st.write(" ")
     dados_totais = pd.read_sql_table('despesas', con=engine)
-    dados_totais = dados_totais.groupby(dados_totais.date_time.dt.date)[['moradia', 'saude', 'educacao']].sum().reset_index()
-    dados_totais = dados_totais.reset_index(name='moradia')
+    dados_totais = dados_totais.groupby(dados_totais.date_time.dt.isocalendar().week)[['moradia', 'saude', 'educacao']].sum().reset_index()
     print(dados_totais)
-    st.line_chart(dados_totais, x='date_time', y="moradia")
+    st.bar_chart(dados_totais, x='week', y=['moradia', 'saude', 'educacao'])
 
 with st.container():
     st.write("---")
