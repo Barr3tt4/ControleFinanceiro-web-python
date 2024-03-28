@@ -8,8 +8,11 @@ PASSWORD = os.getenv('PASSWORD')
 USER = os.getenv('USER')
 HOST = os.getenv('HOST')
 
-def grava_dados_postgres(moradia, sg_moradia):
+def grava_dados_postgres(moradia, saude, alimentacao, educacao, transporte, gastos_pessoais, diversao):
+    """
 
+    :rtype: object
+    """
     try:
         # Connect to an existing database
         connection = psycopg2.connect(user=USER,
@@ -18,8 +21,8 @@ def grava_dados_postgres(moradia, sg_moradia):
                                       port="5432",
                                       database="postgres")
         cursor = connection.cursor()
-        postgreSQL_select_Query = "INSERT INTO despesas (date_time, date, moradia, sg_moradia) VALUES (now(), now(), %s, %s);"
-        cursor.execute(postgreSQL_select_Query, [moradia, sg_moradia])
+        postgreSQL_select_Query = "INSERT INTO despesas (date_time, date, moradia, saude, alimentacao, educacao, transporte, gastos_pessoais, diversao) VALUES (now(), now(), %s, %s, %s, %s, %s, %s, %s);"
+        cursor.execute(postgreSQL_select_Query, [moradia, saude, alimentacao, educacao, transporte, gastos_pessoais, diversao])
         connection.commit()
         count = cursor.rowcount
         print(count, "Record inserted successfully into table")
