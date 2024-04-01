@@ -13,6 +13,14 @@ HOST = os.getenv('HOST')
 
 engine = create_engine(f"postgresql://{USER}:{PASSWORD}@{HOST}:5432/postgres")
 
+d_despesa_formatado = {'moradia': 'Moradia',
+                        'saude': 'Saúde',
+                        'alimentacao': 'Alimentação',
+                        'educacao': 'Educação',
+                        'transporte': 'Transporte',
+                        'gastos_pessoais': 'Gastos Pessoais',
+                        'diversao': 'Diversão'}
+
 st.set_page_config(
     page_title=" ",
     initial_sidebar_state="collapsed"
